@@ -22,6 +22,10 @@ Of course you can also chain methods like:
 
     @{"Pretty cool".replace("cool", "awesome").replace("Pretty", "Absolutely")}
 
+If you do not want or need to pass any arguments to the function, you can even omit the parenthesis, like
+
+    @{"dont yell at me!".ucase}
+
 The next cool feature are identifiers. If you pass some identifiers to GISL, you can use them later on with the `[]` annotation.
 This is incredible useful if you want to use GISL in a context sensitive environment like import scripts (what GISL was made for)
 

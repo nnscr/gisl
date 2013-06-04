@@ -17,6 +17,8 @@ $parser = new \nnscr\GISL\Parser();
 $interpreter = new \nnscr\GISL\Interpreter();
 
 $interpreter->addMethod(new \nnscr\GISL\Method\ReplaceMethod());
+$interpreter->addMethod(new \nnscr\GISL\Method\LCaseMethod());
+$interpreter->addMethod(new \nnscr\GISL\Method\UCaseMethod());
 
 try {
 	$tokenStream = $lexer->tokenize($argv[1]);
