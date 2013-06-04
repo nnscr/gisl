@@ -1,16 +1,18 @@
 {
-    "name": "nnscr/gisl",
-    "description": "A simple script language",
-    "authors": [
-        {
-            "name": "nnscr",
-            "email": "info@nnscr.de"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-
-    },
+	"name": "nnscr/gisl",
+	"type": "library",
+	"description": "A simple script language",
+	"homepage": "https://github.com/nnscr/gisl",
+	"authors": [
+		{
+			"name": "nnscr",
+			"email": "info@nnscr.de"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.3.0"
+	},
 	"autoload": {
 		"psr-0": {"nnscr\\GISL": "src/"}
 	}
