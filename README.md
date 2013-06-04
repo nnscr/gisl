@@ -27,7 +27,7 @@ This is incredible useful if you want to use GISL in a context sensitive environ
 
     @{[Some Field].replace("foo", "bar)}
 
-The interpreter will now look up for an identifier with the name "Some Field", you can see an example of the usage [here](gisl.php).
+The interpreter will now look up for an identifier with the name "Some Field", you can see an example of the usage [here](example/gisl.php).
 
 But what if you really need a `@{` as plain text? You can just escape the @ by appending another @, like:
 

@@ -1,5 +1,10 @@
 <?php
-require __DIR__ . '/_common.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if(!isset($argv[1])) {
+	echo 'Required parameter missing' . PHP_EOL;
+	exit(1);
+}
 
 $identifiers = [
 	'foo'  => 'bar',
@@ -14,7 +19,7 @@ $interpreter = new \nnscr\GISL\Interpreter();
 $interpreter->addMethod(new \nnscr\GISL\Method\ReplaceMethod());
 
 try {
-	$tokenStream = $lexer->tokenize($input);
+	$tokenStream = $lexer->tokenize($argv[1]);
 	$parseTree   = $parser->parse($tokenStream);
 	$output = $interpreter->interpret($parseTree, $identifiers);
 
