@@ -31,6 +31,13 @@ class Parser {
 		return $this->stream;
 	}
 
+	/**
+	 * Parses the given TokenStream into a Node
+	 *
+	 * @param  TokenStream $stream
+	 * @return Node
+	 * @throws Exception\ParseErrorException
+	 */
 	public function parse(TokenStream $stream) {
 		if(!$this->expressionParser) {
 			$this->expressionParser = new ExpressionParser($this);

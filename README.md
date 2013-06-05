@@ -42,3 +42,17 @@ But what if you really need a `@{` as plain text? You can just escape the @ by a
 You need to escape strings or the identifier brackets? No problem, just use the C-escaping style with `\` like:
 
     @{"This is \"absolutely\" safe"}
+
+
+Info
+-------------------
+
+If you want to contribute to GISL, please feel free to fork this project and create a pull request.
+If you have any questions or problems please contact me or create an issue.
+
+It would be really cool if someone could write more methods or write some tests, so feel free to do so.
+
+The lexer and parser code is inspired by Twig.
+
+You can use GISL wherever you want since it is released under the [MIT-License](LICENSE).
+If you use this library in your project or use the code to build your own script language I would be pleased to hear from you.

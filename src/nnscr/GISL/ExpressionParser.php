@@ -20,10 +20,19 @@ class ExpressionParser {
 	 */
 	protected $stream;
 
+	/**
+	 * @param Parser $parser
+	 */
 	public function __construct(Parser $parser) {
 		$this->parser = $parser;
 	}
 
+	/**
+	 * Parse the expression that is followed next in the TokenStream of the main parser
+	 *
+	 * @return CallExpressionNode|NodeInterface
+	 * @throws Exception\ParseErrorException
+	 */
 	public function parseExpression() {
 		$this->stream = $this->parser->getStream();
 
@@ -47,6 +56,12 @@ class ExpressionParser {
 		return $this->parsePostfixExpression($node);
 	}
 
+	/**
+	 * Parse the code behind an expression (detects if there are methods to be called)
+	 *
+	 * @param NodeInterface $node
+	 * @return CallExpressionNode|NodeInterface
+	 */
 	public function parsePostfixExpression(NodeInterface $node) {
 		while(true) {
 			$token = $this->stream->current();
@@ -62,6 +77,13 @@ class ExpressionParser {
 		return $node;
 	}
 
+	/**
+	 * Parses a subscript expression (like methods to be called)
+	 *
+	 * @param NodeInterface $node
+	 * @return CallExpressionNode
+	 * @throws Exception\ParseErrorException
+	 */
 	public function parseSubscriptExpression(NodeInterface $node) {
 		$token = $this->stream->next();
 		if(!$token->test(Token::TYPE_NAME)) {
@@ -80,6 +102,11 @@ class ExpressionParser {
 		return new CallExpressionNode($node, $fn, $arguments);
 	}
 
+	/**
+	 * Parses arguments from the main TokenStream. Returns the arguments as an array.
+	 *
+	 * @return array
+	 */
 	public function parseArguments() {
 		$arguments = [];
 		$this->stream->expect(Token::TYPE_PUNCTUATION, '(');

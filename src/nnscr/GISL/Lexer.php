@@ -6,7 +6,6 @@ use nnscr\GISL\Exception\SyntaxErrorException;
 class Lexer {
 	const STATE_TEXT   = 's_text';
 	const STATE_BLOCK  = 's_block';
-	const STATE_STRING = 's_string';
 
 	// identifiers like function names
 	const REGEX_NAME   = '/[a-zA-Z_][a-zA-Z_0-9]*/A';
@@ -21,32 +20,90 @@ class Lexer {
 
 	const PUNCTUATION = '.,()[]';
 
+	/**
+	 * The gisl code that should be scanned
+	 *
+	 * @var string
+	 */
 	private $script;
+
+	/**
+	 * The current cursor position
+	 *
+	 * @var int
+	 */
 	private $cursor;
+
+	/**
+	 * The end position of the gisl code
+	 *
+	 * @var int
+	 */
 	private $end;
+
+	/**
+	 * The current block position (every position points to the start of a block)
+	 *
+	 * @var int
+	 */
 	private $position;
+
+	/**
+	 * Array holding all found block positions (see $position)
+	 *
+	 * @var array
+	 */
 	private $positions;
 
+	/**
+	 * The current lexer state. Value is one of the STATE_* constants above
+	 *
+	 * @var string
+	 */
 	private $state;
+
+	/**
+	 * The state stack
+	 *
+	 * @var array
+	 */
 	private $stateStack;
 
+	/**
+	 * An array holding all opened brackets
+	 *
+	 * @var array
+	 */
 	private $brackets;
 
+	/**
+	 * The tokens for the current script (the result of the scanning)
+	 *
+	 * @var Token[]
+	 */
 	private $tokens;
 
-	public function __construct() {
-	}
-
+	/**
+	 * Scan the given $script and return a TokenStream holding all found tokens
+	 *
+	 * @param  string $script
+	 * @throws \LogicException
+	 * @throws Exception\SyntaxErrorException
+	 * @return TokenStream
+	 */
 	public function tokenize($script) {
+		// reset the lexer
+		$this->tokens     = [];
+		$this->state      = self::STATE_TEXT;
+		$this->stateStack = [];
+		$this->brackets   = [];
+
+		// set the working data
 		$this->script = $script;
 		$this->cursor = 0;
 		$this->end    = strlen($script);
 
-		$this->state = self::STATE_TEXT;
-		$this->stateStack = [];
-
-		$this->brackets = [];
-
+		// find all positions of start blocks
 		preg_match_all(self::REGEX_LEX_START, $this->script, $matches, PREG_OFFSET_CAPTURE);
 		$this->position  = -1;
 		$this->positions = $matches;
@@ -60,10 +117,6 @@ class Lexer {
 				case self::STATE_BLOCK:
 					$this->lexBlock();
 					break;
-
-				#case self::STATE_STRING:
-				#	$this->lexString();
-				#	break;
 
 				default:
 					throw new \LogicException(sprintf('Unknown state %s', $this->state));
@@ -79,6 +132,9 @@ class Lexer {
 		return new TokenStream($this->tokens);
 	}
 
+	/**
+	 * Lex a simple text. This is called when the current lexer state is STATE_TEXT.
+	 */
 	private function lexText() {
 		if($this->position == count($this->positions[0]) - 1) {
 			// no more blocks to read
@@ -107,6 +163,9 @@ class Lexer {
 		$this->pushState(self::STATE_BLOCK);
 	}
 
+	/**
+	 * Lexes a block. This is called when the current lexer state is STATE_BLOCK.
+	 */
 	private function lexBlock() {
 		if(preg_match(self::REGEX_BLOCK_END, $this->script, $match, null, $this->cursor)) {
 			// end of block reached
@@ -118,6 +177,11 @@ class Lexer {
 		}
 	}
 
+	/**
+	 * Lexes an expression inside a block.
+	 *
+	 * @throws Exception\SyntaxErrorException
+	 */
 	private function lexExpression() {
 		if(preg_match('/\s+/A', $this->script, $match, null, $this->cursor)) {
 			// skip whitespaces
@@ -178,10 +242,12 @@ class Lexer {
 		}
 	}
 
-	private function lexString() {
-
-	}
-
+	/**
+	 * Push a new token to the TokenStream
+	 *
+	 * @param string $type
+	 * @param string $value
+	 */
 	private function pushToken($type, $value = '') {
 		if(Token::TYPE_TEXT === $type && '' === $value) {
 			// empty text token are ignored
@@ -191,11 +257,21 @@ class Lexer {
 		$this->tokens[] = new Token($type, $value);
 	}
 
+	/**
+	 * Sets $state as the new lexer state and pushes the old state to the state stack.
+	 *
+	 * @param string $state
+	 */
 	private function pushState($state) {
 		$this->stateStack[] = $this->state;
 		$this->state = $state;
 	}
 
+	/**
+	 * Pops a state from the state stack.
+	 *
+	 * @throws \Exception
+	 */
 	private function popState() {
 		if(0 === count($this->stateStack)) {
 			throw new \Exception('State stack is empty');
@@ -204,6 +280,11 @@ class Lexer {
 		$this->state = array_pop($this->stateStack);
 	}
 
+	/**
+	 * Move the cursor forward by the number of characters in the $string.
+	 *
+	 * @param $string
+	 */
 	private function moveCursor($string) {
 		$this->cursor += strlen($string);
 	}
