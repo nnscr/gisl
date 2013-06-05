@@ -3,6 +3,7 @@
 	"type": "library",
 	"description": "A simple script language",
 	"homepage": "https://github.com/nnscr/gisl",
+	"license": "MIT",
 	"authors": [
 		{
 			"name": "nnscr",
