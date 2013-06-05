@@ -12,36 +12,36 @@ The syntax is pretty easy: there is just plain text and expressions.
 
 Example:
 
-    This is plain text @{"this is a string inside an expression"}
+    This is plain text {"this is a string inside an expression"}
 
 There are also methods that you can use like:
 
-    @{"some input".replace("input", "data")}
+    {"some input".replace("input", "data")}
 
 Of course you can also chain methods like:
 
-    @{"Pretty cool".replace("cool", "awesome").replace("Pretty", "Absolutely")}
+    {"Pretty cool".replace("cool", "awesome").replace("Pretty", "Absolutely")}
 
 If you do not want or need to pass any arguments to the function, you can even omit the parenthesis, like
 
-    @{"dont yell at me!".ucase}
+    {"dont yell at me!".ucase}
 
-The next cool feature are identifiers. If you pass some identifiers to GISL, you can use them later on with the `[]` annotation.
+The next cool feature are identifiers. If you pass some identifiers to GISL, you can use them later on by appending `@` to the field name.
 This is incredible useful if you want to use GISL in a context sensitive environment like import scripts (what GISL was made for)
 
-    @{[Some Field].replace("foo", "bar)}
+    {@"Some Field".replace("foo", "bar)}
 
 The interpreter will now look up for an identifier with the name "Some Field", you can see an example of the usage [here](example/gisl.php).
 
-But what if you really need a `@{` as plain text? You can just escape the @ by appending another @, like:
+But what if you really need a `{` as plain text? Just put it in a GISL string like:
 
-    Oh what a @@{"cool thing"}
+    Oh what a {"\{\"cool thing\"}"}
 
-    Outputs: Oh what a @{"cool thing"}
+    Outputs: Oh what a {"cool thing"}
 
 You need to escape strings or the identifier brackets? No problem, just use the C-escaping style with `\` like:
 
-    @{"This is \"absolutely\" safe"}
+    {"This is \"absolutely\" safe"}
 
 
 Info

@@ -11,9 +11,9 @@ class Lexer {
 	const REGEX_NAME   = '/[a-zA-Z_][a-zA-Z_0-9]*/A';
 	const REGEX_NUMBER = '/[0-9]+(?:\.[0-9]+)?/A';
 	const REGEX_STRING = '/"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"/As';
-	const REGEX_IDENTIFIER = '/\[([^\[\]\\\\]*(?:\\\\.[^\[\]\\\\]*)*)\]/As';
+	const REGEX_IDENTIFIER = '/@"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"/As';
 
-	const REGEX_LEX_START = '/(?<!@)@\{\s*/';
+	const REGEX_LEX_START = '/\{\s*/';
 	const REGEX_BLOCK_END = '/\s*\}/A';
 
 	const REGEX_OPERATOR = '/\+|-|\*|\//A';
@@ -212,7 +212,7 @@ class Lexer {
 			$this->moveCursor($match[0]);
 		} else if(preg_match(self::REGEX_IDENTIFIER, $this->script, $match, null, $this->cursor)) {
 			// identifier
-			$this->pushToken(Token::TYPE_IDENTIFIER, stripcslashes(substr($match[0], 1, -1)));
+			$this->pushToken(Token::TYPE_IDENTIFIER, stripcslashes(substr($match[0], 2, -1)));
 			$this->moveCursor($match[0]);
 		} else if(preg_match(self::REGEX_STRING, $this->script, $match, null, $this->cursor)) {
 			// string

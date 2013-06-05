@@ -2,7 +2,6 @@
 namespace nnscr\GISL;
 
 use nnscr\GISL\Exception\ParseErrorException;
-use nnscr\GISL\Node\ExpressionNode;
 use nnscr\GISL\Node\Node;
 use nnscr\GISL\Node\PrintNode;
 use nnscr\GISL\Node\TextNode;
