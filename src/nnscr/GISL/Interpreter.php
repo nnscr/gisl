@@ -105,7 +105,7 @@ class Interpreter {
 	 */
 	public function interpret(NodeInterface $node, $identifiers = []) {
 		if(!is_array($identifiers) && !$identifiers instanceof \ArrayAccess) {
-			throw new \InvalidArgumentException('$identifies must be either an array or implement the ArrayAccess interface.');
+			throw new \InvalidArgumentException('$identifiers must be either an array or implement the ArrayAccess interface.');
 		}
 
 		$this->identifiers = $identifiers;
