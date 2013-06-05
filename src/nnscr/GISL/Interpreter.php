@@ -1,7 +1,10 @@
 <?php
 namespace nnscr\GISL;
 
+use nnscr\GISL\Method\LCaseMethod;
 use nnscr\GISL\Method\MethodInterface;
+use nnscr\GISL\Method\ReplaceMethod;
+use nnscr\GISL\Method\UCaseMethod;
 use nnscr\GISL\Node\NodeInterface;
 
 class Interpreter {
@@ -18,6 +21,15 @@ class Interpreter {
 	 * @var array
 	 */
 	private $identifiers;
+
+	/**
+	 * Interpreter
+	 */
+	public function __construct() {
+		$this->addMethod(new ReplaceMethod());
+		$this->addMethod(new UCaseMethod());
+		$this->addMethod(new LCaseMethod());
+	}
 
 	/**
 	 * Add a method
