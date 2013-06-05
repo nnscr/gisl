@@ -25,7 +25,7 @@ try {
 	$parseTree   = $parser->parse($tokenStream);
 	$output = $interpreter->interpret($parseTree, $identifiers);
 
-	var_dump($output);
+	echo $output . PHP_EOL;
 } catch(Exception $e) {
 	echo $e->getMessage() . PHP_EOL;
 }
