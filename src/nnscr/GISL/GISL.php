@@ -78,13 +78,13 @@ class GISL {
 	}
 
 	/**
-	 * Executes the given GISL code
+	 * Executes the given GISL code.
 	 *
 	 * @param string $gisl
-	 * @param array $identifiers
+	 * @param array $identifiers The identifiers, can be an instance of \ArrayAccess or an array.
 	 * @return string
 	 */
-	public function execute($gisl, array $identifiers = []) {
+	public function execute($gisl, $identifiers = []) {
 		$tokenStream = $this->getLexer()->tokenize($gisl);
 		$parseTree   = $this->getParser()->parse($tokenStream);
 

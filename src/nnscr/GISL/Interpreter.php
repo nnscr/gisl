@@ -99,10 +99,15 @@ class Interpreter {
 	 * Interpret the given node.
 	 *
 	 * @param NodeInterface $node
-	 * @param array $identifiers
+	 * @param mixed $identifiers  The identifiers, can be an instance of \ArrayAccess or an array.
+	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function interpret(NodeInterface $node, array $identifiers) {
+	public function interpret(NodeInterface $node, $identifiers = []) {
+		if(!is_array($identifiers) && !$identifiers instanceof \ArrayAccess) {
+			throw new \InvalidArgumentException('$identifies must be either an array or implement the ArrayAccess interface.');
+		}
+
 		$this->identifiers = $identifiers;
 		$value = $this->interpretChild($node);
 		$this->identifiers = null;
