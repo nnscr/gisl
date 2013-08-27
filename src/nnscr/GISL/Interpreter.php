@@ -6,6 +6,7 @@ use nnscr\GISL\Method\LCaseMethod;
 use nnscr\GISL\Method\MethodInterface;
 use nnscr\GISL\Method\MinusMethod;
 use nnscr\GISL\Method\MultiplyMethod;
+use nnscr\GISL\Method\ParseNumberMethod;
 use nnscr\GISL\Method\PlusMethod;
 use nnscr\GISL\Method\ReplaceMethod;
 use nnscr\GISL\Method\UCaseMethod;
@@ -33,6 +34,7 @@ class Interpreter {
 		$this->addMethod(new ReplaceMethod());
 		$this->addMethod(new UCaseMethod());
 		$this->addMethod(new LCaseMethod());
+        $this->addMethod(new ParseNumberMethod());
 
 		// elementary arithmetic, this is a temporary solution
 		// and should be replaced with real operators (meaning that the
